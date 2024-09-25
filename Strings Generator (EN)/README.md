@@ -1,0 +1,1 @@
+"# Strings Generator (EN)" 
