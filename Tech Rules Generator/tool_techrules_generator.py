@@ -21,6 +21,9 @@ class TechRulesGenerator(tk.Tk):
         # Initialize prerequisite IDs list
         self.prerequisite_ids = []
 
+        # Initialize editor groups plural flag
+        self.is_editorgroups_plural = False
+
         # Load configuration
         self.load_config()
 
@@ -163,7 +166,7 @@ class TechRulesGenerator(tk.Tk):
         self.step4_frame = tk.Frame(self.scrollable_frame)
         self.step4_frame.pack(fill='x', padx=10, pady=10)
 
-        self.step4_title = tk.Label(self.step4_frame, text="Step 4: Setup tech.rules for your selected Part", font=("Helvetica", 16, "bold"))
+        self.step4_title = tk.Label(self.step4_frame, text="Step 4: Setup techs.rules for your selected Part", font=("Helvetica", 16, "bold"))
         self.step4_title.pack(anchor='w')
 
         # Part ID
@@ -293,7 +296,8 @@ class TechRulesGenerator(tk.Tk):
             return
 
         # Parse EditorGroups
-        editorgroups = self.extract_editorgroups(content)
+        editorgroups, is_plural = self.extract_editorgroups(content)
+        self.is_editorgroups_plural = is_plural  # Store whether plural or singular
         if editorgroups:
             self.editorgroups_listbox.delete(0, tk.END)
             for group in editorgroups:
@@ -327,16 +331,16 @@ class TechRulesGenerator(tk.Tk):
         if match_plural:
             groups = match_plural.group(1).split(',')
             groups = [grp.strip().strip('"').split('//')[0].strip() for grp in groups]
-            return groups
+            return groups, True  # Return True for plural
 
         # Try to find single EditorGroup
         pattern_singular = r"EditorGroup\s*=\s*\"?([^\n\"]+)\"?"
         match_singular = re.search(pattern_singular, content, re.IGNORECASE)
         if match_singular:
             group = match_singular.group(1).split('//')[0].strip()
-            return [group]
+            return [group], False  # Return False for singular
 
-        return []
+        return [], False  # Default to empty list and False
 
     def setup_part_fields(self):
         # Part Fields Frame
@@ -410,13 +414,26 @@ class TechRulesGenerator(tk.Tk):
             messagebox.showerror("Error", "Please select at least one Editor Group.")
             return
 
-        if len(selected_indices) == 1:
-            # Single Editor Group selected
-            index = selected_indices[0]
-            editorgroup_field = f"EditorGroup = &<{relative_path}>/Part/EditorGroups/{index}"
+        total_editorgroups = self.editorgroups_listbox.size()
+        if self.is_editorgroups_plural:
+            if len(selected_indices) == total_editorgroups:
+                # All editor groups selected
+                editorgroup_field = f"EditorGroups = &<{relative_path}>/Part/EditorGroups"
+            elif len(selected_indices) == 1:
+                # Single Editor Group selected
+                index = selected_indices[0]
+                editorgroup_field = f"EditorGroup = &<{relative_path}>/Part/EditorGroups/{index}"
+            else:
+                # Multiple but not all editor groups selected
+                editorgroup_paths = [f"&<{relative_path}>/Part/EditorGroups/{idx}" for idx in selected_indices]
+                editorgroup_field = f"EditorGroups = [{', '.join(editorgroup_paths)}]"
         else:
-            # Multiple Editor Groups selected
-            editorgroup_field = f"EditorGroups = &<{relative_path}>/Part/EditorGroups"
+            # Part file has singular EditorGroup
+            if len(selected_indices) == 1:
+                editorgroup_field = f"EditorGroup = &<{relative_path}>/Part/EditorGroup"
+            else:
+                messagebox.showerror("Error", "Cannot select multiple Editor Groups when Part file has single 'EditorGroup'.")
+                return
 
         # Format PartsUnlocked
         parts_unlocked_formatted = f"[{', '.join(parts_unlocked_list)}]"
