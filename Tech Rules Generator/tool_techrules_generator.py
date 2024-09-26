@@ -39,14 +39,14 @@ class TechRulesGenerator(tk.Tk):
         # Step 3: Select Part File
         self.setup_step3()
 
-        # Button to show techs.rules readout (Moved here)
+        # Button to show techs.rules readout
         self.setup_show_techrules_button()
 
         # Step 4: Parse Part File for ID and EditorGroups
         self.setup_step4()
 
-        # Step 5: Generate Part Code (Fields will be set up when needed)
-        self.setup_part_fields()  # Directly set up part fields without toggle choice
+        # Step 5: Generate Part Code
+        self.setup_part_fields()
 
         # Reset Button
         self.setup_reset_button()
@@ -374,13 +374,13 @@ class TechRulesGenerator(tk.Tk):
         self.dynamic_fields['cost_entry'] = tk.Entry(self.part_fields_frame, width=80)
         self.dynamic_fields['cost_entry'].pack(padx=10, pady=(5, 0))
 
+        # Move the Step 5 label here, before the generate button
+        self.part_fields_title = tk.Label(self.part_fields_frame, text="Step 5: Generate Part Code", font=("Helvetica", 16, "bold"))
+        self.part_fields_title.pack(anchor='w', pady=(20, 5))
+
         # Generate Button
         self.dynamic_fields['generate_button'] = tk.Button(self.part_fields_frame, text="Generate Part Code", command=self.generate_part_code)
-        self.dynamic_fields['generate_button'].pack(pady=20)
-
-        # Move the Step 5 label here
-        self.part_fields_title = tk.Label(self.part_fields_frame, text="Step 5: Generate Part Code", font=("Helvetica", 16, "bold"))
-        self.part_fields_title.pack(anchor='w', before=self.dynamic_fields['prerequisites_label'], pady=(10, 0))
+        self.dynamic_fields['generate_button'].pack(pady=10)
 
     def generate_part_code(self):
         techrules_path = self.techrules_entry.get()
