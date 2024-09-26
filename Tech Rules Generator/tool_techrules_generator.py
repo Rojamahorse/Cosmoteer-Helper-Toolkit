@@ -14,7 +14,6 @@ class TechRulesGenerator(tk.Tk):
         # Initialize configuration
         self.config_file = "config.ini"
         self.config = configparser.ConfigParser()
-        self.load_config()
 
         # Step 1: Select Mod Root (mod.rules File)
         self.setup_mod_root_selection()
@@ -34,15 +33,16 @@ class TechRulesGenerator(tk.Tk):
         # Placeholder for dynamic fields
         self.dynamic_fields = {}
 
-        # Load previously saved paths and author name if available
-        self.load_saved_paths()
-
         # Button to show TechRules readout
         self.setup_show_techrules_button()
 
         # Advanced Prerequisites Feature
         self.prerequisite_ids = []
         self.setup_advanced_prerequisites()
+
+        # Load previously saved paths and author name if available
+        self.load_saved_paths()
+        self.load_config()
 
     def load_config(self):
         if os.path.exists(self.config_file):
