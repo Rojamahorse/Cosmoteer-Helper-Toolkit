@@ -1,82 +1,190 @@
-# Tech.rules Generator
+# TechRulesGenerator
 
-## Overview
+TechRulesGenerator is a Python-based GUI tool designed to help modders create `techs.rules` entries for their Cosmoteer mods efficiently. This tool parses your existing mod files to extract necessary information and assists in generating the appropriate code snippets for your tech rules.
 
-The TechRules Generator is a Python script with a graphical user interface (GUI) designed to help you quickly generate techrules formatted code for use in your mod files. The script allows you to input various fields, generates the corresponding code, and provides options to copy the code to the clipboard or save it as a `.txt` file.
+## Table of Contents
 
-## Requirements
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage Instructions](#usage-instructions)
+  - [Step 1: Select Mod Root (mod.rules File)](#step-1-select-mod-root-modrules-file)
+  - [Step 2: Generate or Select techs.rules File](#step-2-generate-or-select-techsrules-file)
+  - [Step 3: Select Part File](#step-3-select-part-file)
+  - [Step 4: Setup techs.rules for Your Selected Part](#step-4-setup-techsrules-for-your-selected-part)
+  - [Step 5: Generate Part Code](#step-5-generate-part-code)
+- [Additional Features](#additional-features)
+  - [Show techs.rules Readout](#show-techsrules-readout)
+  - [Resetting the Tool](#resetting-the-tool)
+- [Notes](#notes)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
 
-Before you can use the TechRules Generator, ensure that you have the following installed on your machine:
+## Features
 
-1. **Python 3.x** - You can download Python from the official website: [python.org](https://www.python.org/).
-2. **Python `tkinter` Library** - This library is included with most standard Python installations.
-3. **Python `pyperclip` Module** - This module is required for clipboard operations.
+- **Automatic Parsing**: Reads your `mod.rules` and part files to extract necessary IDs and EditorGroups.
+- **Prerequisite Selection**: Allows you to select prerequisites from a list of available parts in your mod.
+- **Parts Unlocked Selection**: Enables selection of parts that will be unlocked by the tech.
+- **Code Generation**: Generates the code snippet for your techs.rules entry, which can be copied to clipboard or saved to a file.
+- **Scaffolding Generation**: Can generate a basic `techs.rules` file scaffold if one doesn't exist.
 
-## Setup Instructions
+## Prerequisites
 
-### 1. Install Python
+- **Python 3.6 or higher**: Make sure Python is installed on your system.
+- **Required Python Packages**:
+  - `tkinter`: Should come pre-installed with Python on most systems.
+  - `pyperclip`: For clipboard functionality.
+    ```bash
+    pip install pyperclip
+    ```
 
-If you haven't already, download and install Python from [python.org](https://www.python.org/). Make sure to add Python to your system PATH during the installation process.
+## Installation
 
-### 2. Install Required Python Modules
+1. **Clone or Download the Repository**: Download the script to your local machine.
 
-To install the `pyperclip` module, follow these steps:
-
-1. Open a command prompt (Windows) or terminal (Mac/Linux).
-2. Run the following command:
-
-   ```sh
+2. **Install Required Packages**:
+   ```bash
    pip install pyperclip
    ```
 
-### 3. Running the Script
+3. **Ensure tk is Installed**:
+   - On Windows and macOS, `tkinter` is usually included.
+   - On Linux, you may need to install it separately:
+     ```bash
+     sudo apt-get install python3-tk
+     ```
 
-Once you've installed the required dependencies, you can run the TechRules Generator script:
+## Usage Instructions
 
-1. Navigate to the directory where the script is located. For example:
+Run the script using Python:
 
-   ```sh
-   cd "C:\Users\YourUsername\Saved Games\Cosmoteer\76561197993324838\Mods\Star-Wars-A-Cosmos-Divided"
-   ```
+```bash
+python TechRulesGenerator.py
+```
 
-2. Run the script using Python:
+The tool will open a GUI window. Follow the steps below to use the tool effectively.
 
-   ```sh
-   python tool_techrules_generator.py
-   ```
+### Step 1: Select Mod Root (mod.rules File)
 
-### 4. Using the TechRules Generator
+- **Purpose**: Specify the root directory of your mod by selecting the `mod.rules` file.
+- **Action**:
+  1. Click on the **Browse** button next to the mod.rules file path entry.
+  2. Navigate to your mod's root directory and select the `mod.rules` file.
+- **Notes**:
+  - This step enables the tool to locate all relevant files within your mod.
+  - After selecting, the tool will load prerequisite IDs from your mod.
 
-#### Step 1: Enter the Relative Path to `tech.rules`
+### Step 2: Generate or Select techs.rules File
 
-- **What is a relative path?**
-  - A relative path is a way to specify the location of a file or directory relative to the current directory. For example, if your `tech.rules` file is located two directories up from the root of your mod, you might enter `..\..\tech.rules`.
-  
-- **How to find the relative path?**
-  - Determine the location of your `tech.rules` file relative to the root directory of your mod. If `tech.rules` is in the `MyMod/modes/career/` directory, you're mod's root is `MyMod` directory, the relative path would be `modes/career/tech.rules`.
+- **Purpose**: Specify where your `techs.rules` file is located or generate a new one.
+- **Actions**:
+  - **Generate techs.rules File**:
+    1. Click on the **Generate techs.rules File** button.
+    2. The tool will create a scaffold `techs.rules` file in `modes/career/` within your mod.
+    3. Instructions will be provided in the scaffold file on how to include it in your `mod.rules`.
+  - **Select Existing techs.rules File**:
+    1. Click on the **Browse** button next to the techs.rules file path entry.
+    2. Navigate to and select your existing `techs.rules` file.
+- **Notes**:
+  - The generated `techs.rules` file includes comments and instructions.
+  - Ensure you include the necessary snippet in your `mod.rules` to activate the `techs.rules` file.
 
-#### Step 2: Choose Unlock Type
+### Step 3: Select Part File
 
-- Select whether the unlock is for a **Part** or a **Toggle Choice**.
+- **Purpose**: Choose the part file for which you want to create a tech entry.
+- **Action**:
+  1. Click on the **Browse** button next to the Part file path entry.
+  2. Navigate to and select the `.rules` file of the part.
+- **Notes**:
+  - The tool will parse this file to extract the Part ID and EditorGroups.
+  - Ensure the part file is correctly formatted and accessible.
 
-#### Step 3: Fill in the Fields
+### Step 4: Setup techs.rules for Your Selected Part
 
-- Enter the required fields such as **Part ID**, **Cost**, **Prerequisite IDs**, etc.
-- The script will automatically calculate the necessary path prefixes based on the relative path to `tech.rules` you provided earlier.
+- **Purpose**: Configure details for your tech entry based on the selected part.
+- **Actions**:
+  - **Part ID**:
+    - Auto-generated from the Part file.
+    - Verify that it matches your expectations.
+  - **Editor Groups**:
+    1. A list of EditorGroups from the part file will be displayed.
+    2. Select one or more EditorGroups that apply to your tech.
+- **Notes**:
+  - EditorGroups determine where the part appears in the editor.
+  - If the part file uses `EditorGroup` (singular), only one can be selected.
 
-#### Step 4: Generate the Code
+### Step 5: Generate Part Code
 
-- Click the "Generate" button to create the techrules formatted code.
-- Use the "Copy to Clipboard" button to copy the generated code or the "Save as File" button to save it as a `.txt` file.
+- **Purpose**: Input additional details and generate the tech entry code.
+- **Actions**:
+  - **Prerequisite IDs**:
+    1. Click on **Select Prerequisites**.
+    2. In the pop-up window, select one or more prerequisites from the list.
+    3. Click **Select** to confirm.
+  - **Parts Unlocked**:
+    1. Click on **Select Parts Unlocked**.
+    2. In the pop-up window, select the parts that will be unlocked by this tech.
+    3. Click **Select** to confirm.
+    4. By default, the current part ID is selected.
+  - **Cost**:
+    - Enter the cost (in credits) for the tech.
+- **Generate the Code**:
+  1. After filling in all fields, click on **Generate Part Code**.
+  2. The generated code will appear in a text box below.
+- **Notes**:
+  - Ensure all required fields are filled before generating.
+  - The tool computes relative paths automatically for the generated code.
+
+## Additional Features
+
+### Show techs.rules Readout
+
+- **Purpose**: View the current content of your `techs.rules` file.
+- **Action**:
+  - Click on the **Show techs.rules Readout** button.
+  - A new window will display the contents.
+- **Notes**:
+  - Useful for verifying existing entries or copying code snippets.
+
+### Resetting the Tool
+
+- **Purpose**: Clear all fields and start over.
+- **Action**:
+  - Click on the **Reset** button at the bottom of the window.
+- **Notes**:
+  - This will clear all entries except for the mod root path and techs.rules path.
+  - Use this when switching to a new part or making significant changes.
+
+## Notes
+
+- **Config File**: The tool creates a `config.ini` file to store paths and settings.
+  - This allows for persistence between sessions.
+- **Relative Paths**: The tool computes relative paths based on the location of the `techs.rules` file.
+  - Ensure your mod structure is consistent to avoid path issues.
+- **Error Messages**: The tool provides error messages for missing or incorrect inputs.
+  - Read them carefully to resolve any issues.
 
 ## Troubleshooting
 
-- If you encounter an error like `ModuleNotFoundError: No module named 'pyperclip'`, make sure you've installed the `pyperclip` module using the `pip install pyperclip` command.
+- **Cannot Import tkinter**:
+  - Ensure that `tkinter` is installed on your system.
+  - On Linux, you may need to install it via your package manager.
+- **pyperclip Not Found**:
+  - Install it using `pip install pyperclip`.
+- **EditorGroups Not Extracted**:
+  - Verify that your part file contains `EditorGroup` or `EditorGroups`.
+  - Ensure the syntax in your part file matches expected formats.
+- **Multiple "Step 5" Labels Appearing**:
+  - This issue has been addressed in the latest version.
+  - Ensure you are using the updated script provided.
+- **Generated Code Has Incorrect Paths**:
+  - Check that the mod root and part paths are correctly set.
+  - The relative path computation depends on accurate inputs.
 
 ## License
 
-This tool is provided as-is, without any warranty. Use it at your own risk.
+This project is licensed under the MIT License. Feel free to modify and distribute as per the license terms.
 
-## Contribution
+---
 
-I do this for fun and don't need the support but if you'd like to contribute, feel free to make a donation to your favorite charity, or better yet fork the repository, submit a pull request, and help me make this tool even better! If you still feel compelled to contribute to me directly you can [venmo me a coffee](https://www.venmo.com/u/Rojamahorse)"# Tech.rules Generator" 
+*For any further assistance or to report issues, please contact the developer or submit an issue on the project's repository.*
