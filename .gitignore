@@ -1,3 +1,6 @@
 Faction Manager/config.json
 Strings Generator (EN)/config.json
 Tech Rules Generator/config.ini
+config.json
+rules_processor.log
+translation_cache.json
