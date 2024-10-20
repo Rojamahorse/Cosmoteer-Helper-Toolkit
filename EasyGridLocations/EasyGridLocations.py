@@ -126,42 +126,30 @@ def generate_code(x_size, y_size, grid_buttons):
     for y in range(1, y_size + 1):
         for x in range(1, x_size + 1):
             if grid_buttons[y][x].cget("bg") == "gray":
-                blocked_cells.append(f"[{x - 1}, {y - 1}]")
+                blocked_cells.append("\t\t[{}, {}]".format(x - 1, y - 1))
             else:
-                blocked_cells.append(f"/* [{x - 1}, {y - 1}] */")  # Commented out by default
+                blocked_cells.append("\t\t/* [{}, {}] */".format(x - 1, y - 1))  # Commented out by default
 
     # Process door locations for all perimeter cells
     for x in range(x_size + 2):
         if grid_buttons[0][x].cget("bg") == "green":
-            door_locations.append(f"[{x - 1}, -1]")  # Top edge
+            door_locations.append("\t\t[{}, -1]".format(x - 1))  # Top edge
         if grid_buttons[y_size + 1][x].cget("bg") == "green":
-            door_locations.append(f"[{x - 1}, {y_size}]")  # Bottom edge
+            door_locations.append("\t\t[{}, {}]".format(x - 1, y_size))  # Bottom edge
 
     for y in range(1, y_size + 1):
         if grid_buttons[y][0].cget("bg") == "green":
-            door_locations.append(f"[-1, {y - 1}]")  # Left edge
+            door_locations.append("\t\t[-1, {}]".format(y - 1))  # Left edge
         if grid_buttons[y][x_size + 1].cget("bg") == "green":
-            door_locations.append(f"[{x_size}, {y - 1}]")  # Right edge
+            door_locations.append("\t\t[{}, {}]".format(x_size, y - 1))  # Right edge
 
-    # Generate the final output code
-    output_code = f"""
-size = [{x_size}, {y_size}]
-
-BlockedTravelCells
-[
-    {" ".join(blocked_cells)}
-]
-
-AllowedDoorLocations
-[
-    {" ".join(door_locations)}
-]
-
-PhysRects
-[
-    {phys_rect}
-]
-"""
+    # Format output for BlockedTravelCells and AllowedDoorLocations
+    output_code = (
+        "\tAllowedDoorLocations\n\t[\n" + "\n".join(door_locations) + "\n\t]\n\n"
+        "\tBlockedTravelCells\n\t[\n" + "\n".join(blocked_cells) + "\n\t]\n\n"
+        f"\tsize = [{x_size}, {y_size}]\n\n"
+        f"\tPhysRects\n\t[\n\t\tsize = [{x_size}, {y_size}]\n\t]\n"
+    )
 
     # Display the output code in a text window
     code_window = tk.Toplevel(root)
