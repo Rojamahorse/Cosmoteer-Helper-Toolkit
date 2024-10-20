@@ -1,6 +1,3 @@
-### 1. `README.md`
-
-```markdown
 # EasyGrid Locations, A Cosmoteer Modding Tool
 
 This tool helps create and manage door locations, blocked travel cells, and other part properties for Cosmoteer modding. The tool provides a user-friendly grid-based interface that allows you to configure your parts dynamically and generate the correct configuration code.
