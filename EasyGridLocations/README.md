@@ -9,11 +9,11 @@ This tool helps create and manage door locations, blocked travel cells, and othe
 - Outputs properly formatted code for your Cosmoteer `.rules` files
 - Copy generated code to the clipboard for easy insertion
 
-## Prerequisites
+### Prerequisites
 
 Git & Python 3.10 or later
 
-### Quick Setup (Windows)
+## Quick Setup (Windows)
 
 For quick installation and usage of the tool, follow these steps:
 
