@@ -1,6 +1,3 @@
-### 1. `README.md`
-
-```markdown
 # EasyGrid Locations, A Cosmoteer Modding Tool
 
 This tool helps create and manage door locations, blocked travel cells, and other part properties for Cosmoteer modding. The tool provides a user-friendly grid-based interface that allows you to configure your parts dynamically and generate the correct configuration code.
@@ -12,11 +9,11 @@ This tool helps create and manage door locations, blocked travel cells, and othe
 - Outputs properly formatted code for your Cosmoteer `.rules` files
 - Copy generated code to the clipboard for easy insertion
 
-## Prerequisites
+### Prerequisites
 
 Git & Python 3.10 or later
 
-### Quick Setup (Windows)
+## Quick Setup (Windows)
 
 For quick installation and usage of the tool, follow these steps:
 
@@ -103,9 +100,17 @@ This will launch the GUI tool, allowing you to configure your mod parts and gene
 ## Usage
 
 1. **Grid Configuration**: Enter the X and Y size of your part and click **Submit Size** to generate the grid.
+   ![image](https://github.com/user-attachments/assets/552db685-c6fa-4ade-ae46-73bd7d7dcfdb)
+
 2. **Toggle Cells**: Click on cells in the grid to toggle door locations or blocked travel cells.
+   ![image](https://github.com/user-attachments/assets/ac937489-7cbc-48b2-885c-396044e957d3)
+   
 3. **Generate Code**: Once your grid is configured, click **Generate Code** to get the correctly formatted output.
+   ![image](https://github.com/user-attachments/assets/b9c8174d-125a-4576-a4b5-e832ebba5820)
+
 4. **Copy to Clipboard**: Use the **Copy to Clipboard** button to copy the generated code for easy insertion into your `.rules` files.
+  IMPORTANT: Remember to remove the PhysRects portion as that is still WIP.  
+   ![image](https://github.com/user-attachments/assets/e7a0952f-0674-4802-aff4-bd47654d67ea)
 
 ## Requirements
 
