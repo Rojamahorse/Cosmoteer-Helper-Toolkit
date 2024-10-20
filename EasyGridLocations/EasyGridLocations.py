@@ -4,8 +4,8 @@ import pyperclip  # For copying text to clipboard
 
 # Initialize the Tkinter window with larger size and centered layout
 root = tk.Tk()
-root.title("Cosmoteer Modding Tool")
-root.geometry('600x400')  # Set a bigger window size
+root.title("Easy Grid Locations for Cosmoteer")
+root.geometry('400x200')  # Set a bigger window size
 
 # Create labels and entry fields for X and Y size inputs
 label_x = tk.Label(root, text="X Size:", font=("Consolas", 12))
