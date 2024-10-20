@@ -36,10 +36,12 @@ def create_grid(x_size, y_size):
     grid_window = tk.Toplevel(root)
     grid_window.title(f"Grid Editor for {x_size}x{y_size} Part")
 
-    # Set window size dynamically based on grid size and UI elements
-    window_width = max(80 * (x_size + 2), 400)  # Ensure window width doesn't go too small
-    window_height = 80 * (y_size + 3) + 220  # Adjust height to accommodate buttons and key
-    grid_window.geometry(f"{window_width}x{window_height}")
+    # Dynamically set window size based on grid size and UI elements
+    button_size = 90  # Size per button (in pixels)
+    padding = 180  # Additional padding for buttons, instructions, and color key
+    window_width = button_size * (x_size + 2)  # Adjust width for grid and doors
+    window_height = button_size * (y_size + 3) + padding  # Adjust height for instructions, grid, and key
+    grid_window.geometry(f"{window_width}x{window_height}")  # Set window size dynamically
     
     # Main frame to hold all elements
     main_frame = tk.Frame(grid_window)
