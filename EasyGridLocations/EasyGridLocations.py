@@ -8,14 +8,14 @@ root.title("Cosmoteer Modding Tool")
 root.geometry('600x400')  # Set a bigger window size
 
 # Create labels and entry fields for X and Y size inputs
-label_x = tk.Label(root, text="X Size:", font=("Arial", 12))
+label_x = tk.Label(root, text="X Size:", font=("Consolas", 12))
 label_x.grid(row=0, column=0, padx=20, pady=10, sticky="w")
-entry_x = tk.Entry(root, font=("Arial", 12))
+entry_x = tk.Entry(root, font=("Consolas", 12))
 entry_x.grid(row=0, column=1, padx=20, pady=10)
 
-label_y = tk.Label(root, text="Y Size:", font=("Arial", 12))
+label_y = tk.Label(root, text="Y Size:", font=("Consolas", 12))
 label_y.grid(row=1, column=0, padx=20, pady=10, sticky="w")
-entry_y = tk.Entry(root, font=("Arial", 12))
+entry_y = tk.Entry(root, font=("Consolas", 12))
 entry_y.grid(row=1, column=1, padx=20, pady=10)
 
 # Button to submit the size and create the grid
@@ -27,7 +27,7 @@ def submit_size():
     except ValueError:
         messagebox.showerror("Input Error", "Please enter valid integers for X and Y size.")
 
-submit_button = tk.Button(root, text="Submit Size", command=submit_size, font=("Arial", 12), bg="lightblue")
+submit_button = tk.Button(root, text="Submit Size", command=submit_size, font=("Consolas", 12), bg="lightblue")
 submit_button.grid(row=2, column=0, columnspan=2, padx=20, pady=10)
 
 # Create a grid with perimeter for door locations and show a key
@@ -36,19 +36,21 @@ def create_grid(x_size, y_size):
     grid_window = tk.Toplevel(root)
     grid_window.title(f"Grid Editor for {x_size}x{y_size} Part")
 
-    # Dynamically set window size based on grid size and UI elements
+    # Set a minimum window size to ensure instructions, buttons, and key are visible
+    min_width = 1000
+    min_height = 1000  # User's preferred size
     button_size = 90  # Size per button (in pixels)
     padding = 180  # Additional padding for buttons, instructions, and color key
-    window_width = button_size * (x_size + 2)  # Adjust width for grid and doors
-    window_height = button_size * (y_size + 3) + padding  # Adjust height for instructions, grid, and key
+    window_width = max(button_size * (x_size + 2), min_width)  # Adjust width for grid and doors
+    window_height = max(button_size * (y_size + 3) + padding, min_height)  # Adjust height for UI
     grid_window.geometry(f"{window_width}x{window_height}")  # Set window size dynamically
-    
+
     # Main frame to hold all elements
     main_frame = tk.Frame(grid_window)
     main_frame.pack(fill="both", expand=True)
 
     # Instructions
-    instruction_label = tk.Label(main_frame, text="Click cells to toggle block status or door locations.\nGray = Blocked, Green = Allowed Door, Red = Disabled Door", font=("Arial", 12), pady=10)
+    instruction_label = tk.Label(main_frame, text="Click cells to toggle block status or door locations.\nGray = Blocked, Green = Allowed Door, Red = Disabled Door", font=("Consolas", 12), pady=10)
     instruction_label.pack()
 
     # Grid frame for placing buttons
@@ -66,12 +68,14 @@ def create_grid(x_size, y_size):
                 display_x = x - 1  # Adjust label for correct coordinate system
                 display_y = y - 1
                 btn_door = tk.Button(grid_frame, text=f"[{display_x},{display_y}]", bg="green", width=6, height=3,
+                                     font=("Consolas", 10),
                                      command=lambda x=x, y=y: toggle_door(x, y, grid_buttons))
                 btn_door.grid(row=y, column=x)  # Place button in grid layout
                 grid_buttons[y][x] = btn_door
             else:
                 # Internal cells (blocked or unblocked)
                 btn_block = tk.Button(grid_frame, text=f"[{x-1},{y-1}]", bg="white", width=6, height=3,
+                                      font=("Consolas", 10),
                                       command=lambda x=x, y=y: toggle_block(x, y, grid_buttons))
                 btn_block.grid(row=y, column=x)  # Place button in grid layout
                 grid_buttons[y][x] = btn_block
@@ -81,7 +85,7 @@ def create_grid(x_size, y_size):
     button_frame.pack(pady=20)
 
     # Button to generate the final code after grid interaction
-    generate_button = tk.Button(button_frame, text="Generate Code", command=lambda: generate_code(x_size, y_size, grid_buttons))
+    generate_button = tk.Button(button_frame, text="Generate Code", font=("Consolas", 12), command=lambda: generate_code(x_size, y_size, grid_buttons))
     generate_button.pack()
 
     # Frame for the color key at the bottom
@@ -89,11 +93,11 @@ def create_grid(x_size, y_size):
     key_frame.pack(pady=10)
 
     # Add a color key using colored text
-    tk.Label(key_frame, text="Color Key:", font=("Arial", 10)).grid(row=0, column=0, padx=10)
-    tk.Label(key_frame, text=" White = Unblocked ", bg="white", font=("Arial", 10), relief="solid", width=20).grid(row=0, column=1, padx=10)
-    tk.Label(key_frame, text=" Gray = Blocked ", bg="gray", font=("Arial", 10), relief="solid", width=20).grid(row=0, column=2, padx=10)
-    tk.Label(key_frame, text=" Green = Allowed Door ", bg="green", font=("Arial", 10), relief="solid", width=20).grid(row=0, column=3, padx=10)
-    tk.Label(key_frame, text=" Red = Disabled Door ", bg="red", font=("Arial", 10), relief="solid", width=20).grid(row=0, column=4, padx=10)
+    tk.Label(key_frame, text="Color Key:", font=("Consolas", 10)).grid(row=0, column=0, padx=10)
+    tk.Label(key_frame, text=" White = Unblocked ", bg="white", font=("Consolas", 10), relief="solid", width=20).grid(row=0, column=1, padx=10)
+    tk.Label(key_frame, text=" Gray = Blocked ", bg="gray", font=("Consolas", 10), relief="solid", width=20).grid(row=0, column=2, padx=10)
+    tk.Label(key_frame, text=" Green = Allowed Door ", bg="green", font=("Consolas", 10), relief="solid", width=20).grid(row=0, column=3, padx=10)
+    tk.Label(key_frame, text=" Red = Disabled Door ", bg="red", font=("Consolas", 10), relief="solid", width=20).grid(row=0, column=4, padx=10)
 
 # Toggle block state (internal cells)
 def toggle_block(x, y, grid_buttons):
@@ -164,7 +168,7 @@ PhysRects
     code_window.title("Generated Code")
     code_window.geometry(f"600x500")  # Set window size large enough to avoid scroll
 
-    text_box = tk.Text(code_window, wrap="word", font=("Arial", 10), bg="lightyellow")
+    text_box = tk.Text(code_window, wrap="word", font=("Consolas", 10), bg="lightyellow")
     text_box.insert("1.0", output_code)
     text_box.pack(expand=True, fill="both")
 
@@ -174,7 +178,7 @@ PhysRects
         messagebox.showinfo("Copied", "Code copied to clipboard!")
 
     # Button placed below the text box
-    copy_button = tk.Button(code_window, text="Copy to Clipboard", command=copy_to_clipboard)
+    copy_button = tk.Button(code_window, text="Copy to Clipboard", font=("Consolas", 12), command=copy_to_clipboard)
     copy_button.pack(pady=10)
 
 # Run the Tkinter main loop
